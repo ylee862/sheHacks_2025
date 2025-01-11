@@ -41,6 +41,7 @@ With a Kanban board, team chat, and calendar all in one place, it's designed to 
 - **useState & useEffect** - For managing state and handling side effects in React.
 - **CSS Grid** - For flexible and responsive layout design.
 - **Drag and Drop API** - To enable moving sticky notes between columns seamlessly.
+- **Node.js** - A runtime environment for executing JavaScript on the server-side.
 
 ---
 
