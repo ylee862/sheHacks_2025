@@ -1,5 +1,4 @@
 const express = require("express");
-const cors = require("cors");
 
 const app = express();
 
@@ -22,6 +21,17 @@ const socketIO = require("socket.io")(http, {
 //Add this before the app.get() block
 socketIO.on("connection", (socket) => {
   console.log(`⚡: ${socket.id} user just connected!`);
+
+  socket.on("taskDragged", (data) => {
+    const { source, destination } = data;
+
+    const itemShifted = {
+      ...tasks[source.droppableId].items[source.index],
+    };
+    console.log("ItemDragged = ", itemShifted);
+    console.log(data);
+  });
+
   socket.on("disconnect", () => {
     socket.disconnect();
     console.log("🔥: A user disconnected");
