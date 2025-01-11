@@ -1,7 +1,29 @@
 import React, { useState } from "react";
 import "./App.css";
 
-// Kanban Board Component
+// Kanban Column Component
+function KanbanColumn({ columnName, notes, onDrop, onDragStart, removeNote }) {
+  return (
+    <td
+      onDrop={(e) => onDrop(e, columnName)}
+      onDragOver={(e) => e.preventDefault()}
+    >
+      {notes.map((note) => (
+        <div
+          key={note.id}
+          className="sticky-note"
+          draggable
+          onDragStart={(e) => onDragStart(e, note.id, columnName)}
+          style={{ backgroundColor: note.color }}
+        >
+          <p>{note.content}</p>
+          <button onClick={() => removeNote(note.id, columnName)}>Remove</button>
+        </div>
+      ))}
+    </td>
+  );
+}
+
 function KanbanBoard() {
   const [notes, setNotes] = useState({
     Ideas: [],
@@ -42,7 +64,6 @@ function KanbanBoard() {
     const noteColumn = e.dataTransfer.getData("noteColumn");
 
     const noteToMove = notes[noteColumn].find((note) => note.id === Number(noteId));
-
     if (noteToMove) {
       const newNotes = { ...notes };
       newNotes[noteColumn] = newNotes[noteColumn].filter(
@@ -52,10 +73,6 @@ function KanbanBoard() {
       newNotes[column].push(noteToMove);
       setNotes(newNotes);
     }
-  };
-
-  const handleDragOver = (e) => {
-    e.preventDefault();
   };
 
   const handleDragStart = (e, noteId, column) => {
@@ -86,86 +103,23 @@ function KanbanBoard() {
       <table className="kanban-table">
         <thead>
           <tr>
-            <th onDrop={(e) => handleDrop(e, "Ideas")} onDragOver={handleDragOver}>
-              Ideas
-            </th>
-            <th onDrop={(e) => handleDrop(e, "To-Do")} onDragOver={handleDragOver}>
-              To-Do
-            </th>
-            <th onDrop={(e) => handleDrop(e, "Doing")} onDragOver={handleDragOver}>
-              Doing
-            </th>
-            <th onDrop={(e) => handleDrop(e, "Done")} onDragOver={handleDragOver}>
-              Done
-            </th>
+            {["Ideas", "To-Do", "Doing", "Done"].map((column) => (
+              <th key={column}>{column}</th>
+            ))}
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td>
-              {notes.Ideas.map((note) => (
-                <div
-                  key={note.id}
-                  className="sticky-note"
-                  draggable
-                  onDragStart={(e) => handleDragStart(e, note.id, "Ideas")}
-                  style={{ backgroundColor: note.color }}
-                >
-                  <p>{note.content}</p>
-                  <button onClick={() => removeNote(note.id, "Ideas")}>
-                    Remove
-                  </button>
-                </div>
-              ))}
-            </td>
-            <td>
-              {notes["To-Do"].map((note) => (
-                <div
-                  key={note.id}
-                  className="sticky-note"
-                  draggable
-                  onDragStart={(e) => handleDragStart(e, note.id, "To-Do")}
-                  style={{ backgroundColor: note.color }}
-                >
-                  <p>{note.content}</p>
-                  <button onClick={() => removeNote(note.id, "To-Do")}>
-                    Remove
-                  </button>
-                </div>
-              ))}
-            </td>
-            <td>
-              {notes.Doing.map((note) => (
-                <div
-                  key={note.id}
-                  className="sticky-note"
-                  draggable
-                  onDragStart={(e) => handleDragStart(e, note.id, "Doing")}
-                  style={{ backgroundColor: note.color }}
-                >
-                  <p>{note.content}</p>
-                  <button onClick={() => removeNote(note.id, "Doing")}>
-                    Remove
-                  </button>
-                </div>
-              ))}
-            </td>
-            <td>
-              {notes.Done.map((note) => (
-                <div
-                  key={note.id}
-                  className="sticky-note"
-                  draggable
-                  onDragStart={(e) => handleDragStart(e, note.id, "Done")}
-                  style={{ backgroundColor: note.color }}
-                >
-                  <p>{note.content}</p>
-                  <button onClick={() => removeNote(note.id, "Done")}>
-                    Remove
-                  </button>
-                </div>
-              ))}
-            </td>
+            {["Ideas", "To-Do", "Doing", "Done"].map((column) => (
+              <KanbanColumn
+                key={column}
+                columnName={column}
+                notes={notes[column]}
+                onDrop={handleDrop}
+                onDragStart={handleDragStart}
+                removeNote={removeNote}
+              />
+            ))}
           </tr>
         </tbody>
       </table>
@@ -173,150 +127,10 @@ function KanbanBoard() {
   );
 }
 
-// Chatbox Component
-function ChatBox() {
-  const [messages, setMessages] = useState([
-    { sender: "Alice", text: "Hi team! Let's work on the Kanban board." },
-    { sender: "Bob", text: "Sure, I'll take care of the 'Doing' column." },
-  ]);
-  const [newMessage, setNewMessage] = useState("");
-
-  const sendMessage = () => {
-    if (newMessage.trim() !== "") {
-      setMessages([...messages, { sender: "You", text: newMessage }]);
-      setNewMessage("");
-    }
-  };
-
-  return (
-    <div className="chat-box">
-      <h3>Team Chat</h3>
-      <div className="chat-messages">
-        {messages.map((message, index) => (
-          <p key={index}>
-            <strong>{message.sender}: </strong>
-            {message.text}
-          </p>
-        ))}
-      </div>
-      <div className="chat-input">
-        <input
-          type="text"
-          value={newMessage}
-          onChange={(e) => setNewMessage(e.target.value)}
-          placeholder="Type a message..."
-        />
-        <button onClick={sendMessage}>Send</button>
-      </div>
-    </div>
-  );
-}
-
-// Calendar Component
-function Calendar() {
-  const [currentMonth, setCurrentMonth] = useState(new Date().getMonth());
-  const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
-
-  const daysInMonth = (month, year) => new Date(year, month + 1, 0).getDate();
-
-  const nextMonth = () => {
-    if (currentMonth === 11) {
-      setCurrentMonth(0);
-      setCurrentYear((prev) => prev + 1);
-    } else {
-      setCurrentMonth((prev) => prev + 1);
-    }
-  };
-
-  const prevMonth = () => {
-    if (currentMonth === 0) {
-      setCurrentMonth(11);
-      setCurrentYear((prev) => prev - 1);
-    } else {
-      setCurrentMonth((prev) => prev - 1);
-    }
-  };
-
-  const monthNames = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
-  ];
-
-  const renderCalendar = () => {
-    const days = daysInMonth(currentMonth, currentYear);
-    const firstDay = new Date(currentYear, currentMonth, 1).getDay();
-    const grid = [];
-
-    // Fill empty cells before the first day of the current month
-    for (let i = 0; i < firstDay; i++) {
-      grid.push(<div className="calendar-cell empty" key={`empty-${i}`}></div>);
-    }
-
-    // Fill cells for each day of the current month
-    for (let day = 1; day <= days; day++) {
-      grid.push(
-        <div className="calendar-cell" key={day}>
-          {day}
-        </div>
-      );
-    }
-
-    // Fill empty cells after the last day of the current month to maintain alignment
-    const totalCells = firstDay + days;
-    const emptyCellsAfter = 7 - (totalCells % 7);
-    if (emptyCellsAfter < 7) {
-      for (let i = 0; i < emptyCellsAfter; i++) {
-        grid.push(
-          <div className="calendar-cell empty" key={`after-empty-${i}`}></div>
-        );
-      }
-    }
-
-    return grid;
-  };
-
-  return (
-    <div className="calendar">
-      <div className="calendar-header">
-        <button onClick={prevMonth}>◀</button>
-        <h3>
-          {monthNames[currentMonth]} {currentYear}
-        </h3>
-        <button onClick={nextMonth}>▶</button>
-      </div>
-      <div className="calendar-grid">
-        <div className="calendar-cell day-name">Sun</div>
-        <div className="calendar-cell day-name">Mon</div>
-        <div className="calendar-cell day-name">Tue</div>
-        <div className="calendar-cell day-name">Wed</div>
-        <div className="calendar-cell day-name">Thu</div>
-        <div className="calendar-cell day-name">Fri</div>
-        <div className="calendar-cell day-name">Sat</div>
-        {renderCalendar()}
-      </div>
-    </div>
-  );
-}
-
-// App Component
 function App() {
   return (
     <div className="App">
       <KanbanBoard />
-      <div className="right-panel">
-        <Calendar />
-        <ChatBox />
-      </div>
     </div>
   );
 }

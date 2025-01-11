@@ -1,45 +1,48 @@
 .App {
   display: flex;
   height: 100vh;
+  overflow: hidden;
 }
 
 .kanban-board {
   width: 70%;
   padding: 20px;
-  box-sizing: border-box;
-  background-color: #f0f0f0;
+  background-color: #f9f9f9;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.chat-box, .calendar {
-  width: 30%;
-  padding: 20px;
-  box-sizing: border-box;
-  background-color: #ffffff;
+.kanban-board h2 {
+  text-align: center;
 }
 
-.chat-box {
-  margin-top: 20px;
-  overflow-y: auto;
+.note-input {
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
 }
 
-.calendar {
-  margin-top: 20px;
-  overflow-y: auto;
-}
-
-.kanban-board h2, .chat-box h3, .calendar .calendar-header h3 {
-  margin: 0;
-}
-
-.note-input textarea, .note-input select, .note-input button {
-  width: 100%;
+.note-input textarea,
+.note-input select,
+.note-input button {
   margin: 5px 0;
+  padding: 10px;
+  font-size: 16px;
 }
 
 .sticky-note {
-  margin: 5px 0;
-  padding: 10px;
-  border-radius: 5px;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  margin: 10px 0;
+}
+
+.sticky-note button {
+  background-color: #ff6b6b;
+  border: none;
+  color: white;
+  padding: 5px 10px;
+  font-size: 14px;
+  border-radius: 4px;
 }
 
 .kanban-table {
@@ -47,44 +50,34 @@
   border-collapse: collapse;
 }
 
-.kanban-table th, .kanban-table td {
+.kanban-table th {
+  background-color: #f4f4f4;
   padding: 10px;
   text-align: center;
-  vertical-align: top;
-}
-
-.kanban-table th {
-  background-color: #f0f0f0;
   cursor: pointer;
 }
 
 .kanban-table td {
+  padding: 10px;
+  vertical-align: top;
+  min-height: 120px;
   border: 1px solid #ddd;
-  min-height: 100px;
-  position: relative;
 }
 
 .kanban-table td .sticky-note {
-  margin: 5px 0;
-}
-
-.calendar-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  cursor: move;
 }
 
 .calendar-grid {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  grid-gap: 5px;
-  margin-top: 10px;
+  gap: 10px;
 }
 
 .calendar-cell {
   padding: 10px;
   text-align: center;
-  background-color: #f8f8f8;
+  background-color: #fff;
   border: 1px solid #ddd;
 }
 
@@ -94,12 +87,7 @@
 
 .calendar-cell.day-name {
   font-weight: bold;
-  background-color: #eee;
-}
-
-.chat-messages {
-  max-height: 200px;
-  overflow-y: auto;
+  background-color: #f0f0f0;
 }
 
 .chat-input input {
@@ -108,4 +96,18 @@
 
 .chat-input button {
   width: 18%;
+}
+
+@media (max-width: 768px) {
+  .App {
+    flex-direction: column;
+  }
+
+  .kanban-board {
+    width: 100%;
+  }
+
+  .chat-box, .calendar {
+    width: 100%;
+  }
 }
