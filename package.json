@@ -1,8 +1,19 @@
 {
+  "name": "shehacks_2025",
+  "version": "0.1.0",
+  "private": true,
+
   "dependencies": {
     "web-vitals": "^4.2.4"
   },
   "devDependencies": {
     "vite": "^6.0.7"
+  },
+  "scripts": {
+    "start": "vite",                
+    "build": "vite build",          
+    "test": "vite test",            
+    "dev": "vite",                  
+    "eject": "react-scripts eject"  
   }
 }
