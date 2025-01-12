@@ -90,8 +90,8 @@ const TaskCalendar = ({ tasks }) => {
           }
 
           .highlight {
-            background-color: #0288d1 !important; /* Bold blue for highlighted dates */
-            color: #fff !important;
+            background-color: #ffd32c !important; /* Bold blue for highlighted dates */
+            color: #000 !important;
             font-weight: bold;
             border-radius: 50%;
             transform: scale(1.05);
