@@ -109,11 +109,16 @@ const TaskContainer = ({ socket }) => {
                 minWidth: "250px",
               }}
             >
-              <h3>{task.title}</h3>
+              <h3>{task.title.toUpperCase()}</h3>
               <div className={`${task.title.toLowerCase()}__container`}>
                 <Droppable droppableId={key}>
                   {(provided) => (
-                    <div ref={provided.innerRef} {...provided.droppableProps}>
+                    <div ref={provided.innerRef} {...provided.droppableProps}
+                    style={{
+                      minHeight: "50px",
+                      border: "none",  // Add a dashed border to highlight the drop area
+                    }}
+                    >
                       {task.items.map((item, index) => (
                         <Draggable
                           key={item.id}

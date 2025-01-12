@@ -43,7 +43,7 @@ const MainTask = () => {
           right: "20px",
           fontSize: "2rem",
           padding: "10px",
-          borderRadius: "75px",
+          borderRadius: "50px",
           backgroundColor: "teal",
           color: "white",
           border: "none"
