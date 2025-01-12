@@ -4,14 +4,12 @@ const port = process.env.PORT || 8000;
 
 const cors = require("cors");
 app.use(cors());
+app.use(express.json());
 
-app.get("/", (req, res) => {
-  res.send("Hello, World!");
-});
+// app.get("/", (req, res) => {
+//   res.send("Hello, World!");
+// });
 
-app.listen(port, () => {
-  console.log(`Server running at http://localhost:${port}`);
-});
 const fetchID = () => Math.random().toString(36).substring(2, 10);
 
 let tasks = {
@@ -58,4 +56,15 @@ let tasks = {
 
 app.get("/api", (req, res) => {
   res.json(tasks);
+});
+
+app.post("/newTask", (req, res) => {
+  const newTask = req.body;
+  tasks.ideas.items.push(newTask);
+  io.emit("tasks, tasks");
+  res.status(200).send("Task added");
+});
+
+app.listen(port, () => {
+  console.log(`Server running at http://localhost:${port}`);
 });

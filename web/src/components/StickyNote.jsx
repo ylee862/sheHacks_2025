@@ -32,8 +32,8 @@ const StickyNote = ({ taskData, setTaskData, saveTask, closeModal }) => {
                     />
                 </div>
                 <div style={{ display: "flex", justifyContent: "space-between" }}>
-                    <button onClick={saveTask}>Save</button>
                     <button onClick={closeModal}>Close</button>
+                    <button onClick={saveTask}>Save</button>
                 </div>
             </div>
         </div>
