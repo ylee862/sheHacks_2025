@@ -28,6 +28,7 @@ const MainTask = () => {
     };
 
     socket.emit("newTask", newTask);
+    setTaskData({ description: "", colour: "#ffffff", deadline: "" });
     closeModal();
   }
 

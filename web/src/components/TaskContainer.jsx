@@ -5,10 +5,14 @@ import StickyNote from "./StickyNote";
 
 const TaskContainer = ({ socket }) => {
   const [tasks, setTasks] = useState({});
+  const [taskData, setTaskData] = useState({ description: "", colour: "#ffffff", deadline: "" });
   const [showStickyNote, setShowStickyNote] = useState(false);
   const [newTaskText, setNewTaskText] = useState("");
   const [newTaskDeadline, setNewTaskDeadline] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const [messages, setMessages] = useState([]);
+  const [newMessage, setNewMessage] = useState("");
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
@@ -37,6 +41,9 @@ const TaskContainer = ({ socket }) => {
 
   useEffect(() => {
     socket.on("tasks", (data) => setTasks(data));
+    socket.on("chatMessage", (message) => {
+      setMessages((prevMessages) => [...prevMessages, message]);
+    });
   }, [socket]);
 
   const handleAddTask = () => {
@@ -82,6 +89,13 @@ const TaskContainer = ({ socket }) => {
       source,
       destination,
     });
+  };
+
+  const handleSendMessage = () => {
+    if (newMessage.trim()) {
+      socket.emit("chatMessage", newMessage); // Emit chat message to server
+      setNewMessage("");
+    }
   };
 
   return (
@@ -168,17 +182,31 @@ const TaskContainer = ({ socket }) => {
           <TaskCalendar tasks={tasks} />
         </div>
 
-        {/* Chat (Empty for now) */}
-        <div
-          style={{
-            flex: 1,
-            border: "1px solid #ccc",
-            padding: "1rem",
-            backgroundColor: "#f9f9f9",
-          }}
-        >
-          {/* Placeholder for chat */}
-          <h4>Chat (Empty for now)</h4>
+        {/* Chat */}
+        <div style={{ flex: 1, border: "1px solid #ccc", padding: "1rem", backgroundColor: "#f9f9f9" }}>
+          <h4>Chat</h4>
+          <div style={{ maxHeight: "300px", overflowY: "scroll", borderBottom: "1px solid #ddd", paddingBottom: "10px" }}>
+            {/* Display messages */}
+            {messages.map((msg, idx) => (
+              <div key={idx} style={{ marginBottom: "8px" }}>
+                <p>{msg}</p>
+              </div>
+            ))}
+          </div>
+          <div style={{ display: "flex", alignItems: "center" }}>
+            <input
+              type="text"
+              value={newMessage}
+              onChange={(e) => setNewMessage(e.target.value)}
+              style={{ flex: 1, padding: "10px", borderRadius: "4px", border: "1px solid #ccc" }}
+            />
+            <button
+              onClick={handleSendMessage}
+              style={{ marginLeft: "10px", padding: "10px 20px", borderRadius: "4px", backgroundColor: "teal", color: "white", border: "none" }}
+            >
+              Send
+            </button>
+          </div>
         </div>
       </div>
 

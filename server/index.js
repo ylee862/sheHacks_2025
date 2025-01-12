@@ -1,8 +1,22 @@
 const express = require("express");
+const http = require("http");
+const { Server } = require("socket.io");
+const cors = require("cors");
+
 const app = express();
 const port = process.env.PORT || 8000;
 
-const cors = require("cors");
+// Create an HTTP server
+const server = http.createServer(app);
+
+// Initialize Socket.IO
+const io = new Server(server, {
+  cors: {
+    origin: "*", // Adjust based on your frontend's origin
+    methods: ["GET", "POST"],
+  },
+});
+
 app.use(cors());
 app.use(express.json());
 
@@ -50,12 +64,29 @@ let tasks = {
   },
 };
 
+io.on("connection", (socket) => {
+  console.log("A user connected:", socket.id);
+
+  // Handle incoming chat messages
+  socket.on("chatMessage", (message) => {
+    console.log("Received message:", message);
+    io.emit("chatMessage", message); // Broadcast message to all clients
+  });
+
+  socket.on("disconnect", () => {
+    console.log("A user disconnected:", socket.id);
+  });
+});
+
 app.get("/api", (req, res) => {
   res.json(tasks);
 });
 
 app.post("/newTask", (req, res) => {
   const newTask = req.body;
+  if (!tasks.ideas) {
+    tasks.ideas = { title: "ideas", items: [] };
+  }
   tasks.ideas.items.push(newTask);
   io.emit("tasks", tasks);
   res.status(200).send("Task added");
