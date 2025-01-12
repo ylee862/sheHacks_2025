@@ -116,7 +116,7 @@ const TaskContainer = ({ socket }) => {
   };
 
   return (
-    <div className="task-container" style={{ display: "flex", height: "120" }}>
+    <div className="task-container" style={{ display: "flex", height: "80vh" }}>
       <button
         onClick={handleAddTask}
         style={{
@@ -371,6 +371,7 @@ const TaskContainer = ({ socket }) => {
             border: "none",
             padding: "1rem",
             backgroundColor: "#f9f9f9",
+            marginTop: "-60px",
           }}
         >
           <TaskCalendar tasks={tasks} />
