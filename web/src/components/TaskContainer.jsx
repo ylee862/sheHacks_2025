@@ -52,18 +52,43 @@ const TaskContainer = ({ socket }) => {
     socket.emit("addTask", updatedTasks);
   };
 
-  const handleDragEnd = ({ destination, source }) => {
-    if (!destination) return;
+  const handleDragEnd = ({ source, destination }) => {
+    if (!destination) return; // No valid drop destination
     if (
-      destination.index === source.index &&
-      destination.droppableId === source.droppableId
+      source.droppableId === destination.droppableId &&
+      source.index === destination.index
     )
-      return;
-
-    socket.emit("taskDragged", {
-      source,
-      destination,
-    });
+      return; // No change in position
+  
+    // Get the source and destination containers
+    const sourceColumn = tasks[source.droppableId];
+    const destinationColumn = tasks[destination.droppableId];
+  
+    // Copy the items
+    const sourceItems = Array.from(sourceColumn.items);
+    const destinationItems = Array.from(destinationColumn.items);
+  
+    // Remove the dragged item from the source
+    const [draggedItem] = sourceItems.splice(source.index, 1);
+  
+    // Add the dragged item to the destination
+    destinationItems.splice(destination.index, 0, draggedItem);
+  
+    // Update the state with the new task positions
+    const updatedTasks = {
+      ...tasks,
+      [source.droppableId]: {
+        ...sourceColumn,
+        items: sourceItems,
+      },
+      [destination.droppableId]: {
+        ...destinationColumn,
+        items: destinationItems,
+      },
+    };
+  
+    setTasks(updatedTasks); // Update local state
+    socket.emit("tasks", updatedTasks); // Emit the updated tasks to the server
   };
 
   return (

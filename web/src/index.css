@@ -194,21 +194,120 @@ a {
   transform: translateY(0);
 }
 
-/* Scrollbar Styling */
-::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+/* Calendar Styles */
+.calendar {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 5px;
+  padding: 20px;
+  background-color: #f4f4f9;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  margin-top: 20px;
+  overflow: hidden;
 }
 
-::-webkit-scrollbar-thumb {
-  background: #ccc;
-  border-radius: 4px;
+.calendar__header {
+  grid-column: span 7;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 1.4rem;
+  font-weight: bold;
+  padding: 10px 20px;
+  background-color: #5050e9;
+  color: #fff;
+  border-radius: 8px;
 }
 
-::-webkit-scrollbar-thumb:hover {
-  background: #bbb;
+.calendar__nav button {
+  background-color: #ffd6a5;
+  color: #444;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 15px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
 }
 
-::-webkit-scrollbar-track {
-  background: #f7f8fa;
+.calendar__nav button:hover {
+  background-color: #ffc085;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.calendar__days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 5px;
+  margin-top: 10px;
+}
+
+.calendar__day {
+  text-align: center;
+  font-weight: bold;
+  padding: 10px 0;
+  background-color: #9bf6ff;
+  color: #fff;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.calendar__day:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.calendar__dates {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 5px;
+}
+
+.calendar__date {
+  padding: 12px;
+  text-align: center;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 500;
+  background-color: #ffd6a5;
+  color: #333;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.2s;
+}
+
+.calendar__date:hover {
+  background-color: #ffc085;
+  transform: translateY(-2px);
+}
+
+.calendar__date--highlight {
+  background-color: #ffadad;
+  color: #fff;
+  font-weight: bold;
+}
+
+.calendar__date--today {
+  background-color: #caffbf;
+  color: #444;
+  font-weight: bold;
+}
+
+/* Responsive Calendar Layout */
+@media (max-width: 768px) {
+  .calendar {
+    padding: 10px;
+  }
+
+  .calendar__header {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .calendar__day, .calendar__date {
+    font-size: 0.9rem;
+    padding: 8px;
+  }
 }
