@@ -1,7 +1,7 @@
 /* Global Styles */
 body {
   margin: 0;
-  font-family: "Space Grotesk", sans-serif;
+  font-family: "Segoe UI", sans-serif;
   background-color: #ffffff;
   color: #333;
 }
@@ -82,20 +82,21 @@ a {
 }
 
 .ideas__wrapper h3 {
-  background-color: #4373a7;
+  background-color: #63B3ED; /* Light blue for Ideas */
 }
 
 .todo__wrapper h3 {
-  background-color: #4373a7;
+  background-color: #4A90E2; /* Slightly darker blue for To-Do */
 }
 
 .doing__wrapper h3 {
-  background-color: #4373a7;
+  background-color: #2B6CB0; /* Medium blue for Doing */
 }
 
 .done__wrapper h3 {
-  background-color: #4373a7;
+  background-color: #1E3A8A; /* Dark blue for Done */
 }
+
 
 /* Task Containers */
 .ideas__container,

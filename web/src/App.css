@@ -1,120 +1,6 @@
-/* .App {
-  display: flex;
-  height: 100vh;
-  overflow: hidden;
-}
-
-.kanban-board {
-  width: 70%;
-  padding: 20px;
-  background-color: #f9f9f9;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.kanban-board h2 {
-  text-align: center;
-}
-
-.note-input {
-  margin-bottom: 20px;
-  display: flex;
-  flex-direction: column;
-}
-
-.note-input textarea,
-.note-input select,
-.note-input button {
-  margin: 5px 0;
-  padding: 10px;
-  font-size: 16px;
-}
-
-.sticky-note {
-  padding: 15px;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  margin: 10px 0;
-}
-
-.sticky-note button {
-  background-color: #ff6b6b;
-  border: none;
-  color: white;
-  padding: 5px 10px;
-  font-size: 14px;
-  border-radius: 4px;
-}
-
-.kanban-table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-.kanban-table th {
-  background-color: #f4f4f4;
-  padding: 10px;
-  text-align: center;
-  cursor: pointer;
-}
-
-.kanban-table td {
-  padding: 10px;
-  vertical-align: top;
-  min-height: 120px;
-  border: 1px solid #ddd;
-}
-
-.kanban-table td .sticky-note {
-  cursor: move;
-}
-
-.calendar-grid {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  gap: 10px;
-}
-
-.calendar-cell {
-  padding: 10px;
-  text-align: center;
-  background-color: #fff;
-  border: 1px solid #ddd;
-}
-
-.calendar-cell.empty {
-  background-color: transparent;
-}
-
-.calendar-cell.day-name {
-  font-weight: bold;
-  background-color: #f0f0f0;
-}
-
-.chat-input input {
-  width: 80%;
-}
-
-.chat-input button {
-  width: 18%;
-}
-
-@media (max-width: 768px) {
-  .App {
-    flex-direction: column;
-  }
-
-  .kanban-board {
-    width: 100%;
-  }
-
-  .chat-box, .calendar {
-    width: 100%;
-  }
-} */
 
 * {
-  font-family: "Space Grotesk", sans-serif;
-
+  font-family: "Segoe UI", sans-serif;
   box-sizing: border-box;
 }
 
@@ -124,201 +10,157 @@ a {
 
 body {
   margin: 0;
-
   padding: 0;
+  background-color: #F1F5F9; /* Light grayish-blue background */
 }
 
 .navbar {
   width: 100%;
-
-  background-color: black;
-
-  color: white;
-
+  background-color: #2A4365; /* Dark blue */
+  color: rgb(255, 255, 255);
   height: 10vh;
-
-  border-bottom: 1px solid #ddd;
-
+  border-bottom: 1px solid #cbd5e0; /* Light blue */
   display: flex;
-
   align-items: center;
-
   justify-content: center;
-
   padding: 20px;
 }
 
 .form__input {
   min-height: 20vh;
-
   display: flex;
-
   align-items: center;
-
   justify-content: center;
 }
 
 .input {
-  border: 2px solid #008cba;
-
+  border: 2px solid #408adf; /* Medium blue */
   border-radius: 4px;
-
-  background-color: #f8f8f8;
-
-  color: #000;
-
+  background-color: #EBF8FF; /* Very light blue */
+  color: #2B6CB0; /* Dark blue */
   transition: 0.3s;
-
   box-sizing: border-box;
-
   outline: none;
-
   margin: 0 5px;
-
   width: 50%;
-
   padding: 10px 15px;
 }
-.input:focus {
-  border-color: #66afe9;
 
+.input:focus {
+  border-color: #3182CE; /* Slightly brighter blue */
   outline: none;
 }
 
 .addCardBtn {
   font-weight: 900;
-
   font-family: cursive;
-
   width: 120px;
-
   padding: 10px;
-
   cursor: pointer;
-
-  background-color: #5050e9;
-
+  background-color: #4299E1; /* Light blue */
   color: #fff;
-
   border: none;
-
   outline: none;
-
   height: 43px;
 }
 
 .box {
   width: 100%;
-
   min-height: 100%;
-
   display: flex;
-
   align-items: center;
-
   justify-content: space-between;
-
   padding: 10px;
 }
 
 .head {
   border-radius: 10px;
-
   text-align: center;
-
   text-transform: capitalize;
-
   color: white;
-
   font-weight: 900;
 }
-.ideas__head {
-  background-color: rgb(232, 230, 153);
-}
-.todo__head {
-  background-color: rgb(232, 230, 153);
-}
-.doing__head {
-  background-color: rgb(232, 230, 153);
-}
-.done__head {
-  background-color: rgb(232, 230, 153);
+
+.ideas__head, .todo__head, .doing__head, .done__head {
+  background-color: #63B3ED; /* Light blue */
 }
 
-.ideas__wrapper,
-.todo__wrapper,
-.doing__wrapper,
-.done__wrapper {
+.ideas__wrapper, .todo__wrapper, .doing__wrapper, .done__wrapper {
   width: 32%;
-
   min-height: 60vh;
-
   display: flex;
-
   flex-direction: column;
-
   padding: 5px;
 }
 
 .ideas__container {
-  background-color: "#4373a7";
+  background-color: #E3F8FF; /* Very light blue */
 }
 
 .todo__container {
-  background-color: "#4373a7";
+  background-color: #BEE3F8; /* Light blue */
 }
 
 .doing__container {
-  background-color: "#4373a7";
+  background-color: #63B3ED; /* Medium blue */
 }
 
 .done__container {
-  background-color: "#4373a7";
+  background-color: #2B6CB0; /* Dark blue */
 }
+
 
 .cardcontainer {
   width: 100%;
-
   min-height: 10vh;
-
   max-height: 40vh;
-
   overflow-y: scroll;
-
   display: flex;
-
   flex-direction: column;
-
   padding: 5px;
-
   margin-top: 5px;
-
   border-radius: 5px;
+  background-color: #F8FAFC; /* Light grayish-blue */
 }
 
-.ideas__items,
-.todo__items,
-.doing__items,
-.done__items {
+.ideas__items {
   width: 100%;
-
   border-radius: 5px;
-
   margin-bottom: 10px;
-
-  background-color: white;
-
+  background-color: #e3f59e; /* Light warm yellow */
   padding: 15px;
 }
 
+.todo__items {
+  width: 100%;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  background-color: #fddac2; /* Light pale yellow */
+  padding: 15px;
+}
+
+.doing__items {
+  width: 100%;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  background-color: #a0e9df; /* Light teal */
+  padding: 15px;
+}
+
+.done__items {
+  width: 100%;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  background-color: #dadde1; /* Light cool gray */
+  padding: 15px;
+}
+
+
 .comment {
   text-align: right;
-
   font-size: 14px;
-
   cursor: pointer;
-
-  color: rgb(85, 85, 199);
+  color: #3182CE; /* Medium blue */
 }
 
 .comment:hover {
@@ -331,15 +173,10 @@ body {
 
 .comment__form {
   width: 100%;
-
   display: flex;
-
   align-items: center;
-
   justify-content: center;
-
   flex-direction: column;
-
   margin-bottom: 30px;
 }
 
@@ -349,53 +186,35 @@ body {
 
 .comment__form textarea {
   width: 80%;
-
   padding: 15px;
-
   margin-bottom: 15px;
 }
 
 .commentBtn {
   padding: 10px;
-
   width: 200px;
-
-  background-color: #367e18;
-
+  background-color: #2B6CB0; /* Dark blue */
   outline: none;
-
   border: none;
-
   color: #fff;
-
   height: 45px;
-
   cursor: pointer;
 }
 
 .comments__section {
   width: 100%;
-
   display: flex;
-
   align-items: center;
-
   justify-content: center;
-
   flex-direction: column;
 }
 
 .login__form {
   width: 100%;
-
   height: 100vh;
-
   display: flex;
-
   flex-direction: column;
-
   align-items: center;
-
   justify-content: center;
 }
 
@@ -405,39 +224,26 @@ body {
 
 .login__form > input {
   width: 70%;
-
   padding: 10px 15px;
-
   margin-bottom: 15px;
 }
 
 .btn {
   padding: 15px;
-
   cursor: pointer;
-
   margin: 10px;
-
   font-size: 16px;
-
   outline: none;
-
   width: 200px;
-
-  background-color: #4caf50;
-
+  background-color: #4A90E2; /* Medium blue */
   border: 2px solid white;
-
   color: white;
-
   text-align: center;
-
   text-decoration: none;
-
   transition-duration: 0.4s;
-
   border-radius: 4px;
 }
+
 
 .btn:hover {
   background-color: white;
