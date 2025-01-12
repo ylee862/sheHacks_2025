@@ -15,22 +15,7 @@ const MainTask = () => {
 
   return (
     <div>
-      <NavBar projectName={projectName} />
-      <div style={{ margin: "1rem", textAlign: "center" }}>
-        <input
-          type="text"
-          placeholder="Enter Project Name"
-          value={projectName}
-          onChange={setProjectNameChange}
-          style={{
-            padding: "0.5rem",
-            fontSize: "1rem",
-            width: "300px",
-            border: "1px solid #ccc",
-            borderRadius: "4px",
-          }}
-        />
-      </div>
+      <NavBar />
       <TaskContainer socket={socket} />
     </div>
   );
