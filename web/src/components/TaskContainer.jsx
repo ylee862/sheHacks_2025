@@ -5,10 +5,19 @@ const TaskContainer = ({ socket }) => {
   const [tasks, setTasks] = useState({});
 
   useEffect(() => {
-    socket.on("tasks", (data) => {
-      setTasks(data);
-      console.log("setting tasks");
-    });
+    function fetchTasks() {
+      fetch("http://localhost:3000/api")
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data);
+          setTasks(data);
+        });
+    }
+    fetchTasks();
+  }, []);
+
+  useEffect(() => {
+    socket.on("tasks", (data) => setTasks(data));
   }, [socket]);
 
   return (
