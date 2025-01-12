@@ -100,7 +100,7 @@ body {
 
 .ideas__container {
   background-color: #e3f8ff; /* Very light blue */
-  height: 100%; /* Ensure each container fills the available height */
+  height: 120%; /* Ensure each container fills the available height */
   display: flex; /* Flexbox to control child elements within */
   flex-direction: column; /* Adjust the internal layout if necessary */
 }
