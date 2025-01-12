@@ -8,6 +8,9 @@ const TaskContainer = ({ socket }) => {
   const [newTaskText, setNewTaskText] = useState("");
   const [newTaskDeadline, setNewTaskDeadline] = useState("");
 
+  const [messages, setMessages] = useState([]);
+  const [newMessage, setNewMessage] = useState("");
+
   useEffect(() => {
     function fetchTasks() {
       fetch("http://localhost:3000/api")
@@ -20,7 +23,13 @@ const TaskContainer = ({ socket }) => {
   }, []);
 
   useEffect(() => {
+    // Listen for real-time updates
     socket.on("tasks", (data) => setTasks(data));
+
+    // Listen for new chat messages
+    socket.on("chatMessage", (message) => {
+      setMessages((prevMessages) => [...prevMessages, message]);
+    });
   }, [socket]);
 
   const handleAddTask = () => {
@@ -29,27 +38,30 @@ const TaskContainer = ({ socket }) => {
 
   const handlePostTask = () => {
     if (!newTaskText.trim() || !newTaskDeadline) return;
-
+  
     const newTask = {
       id: Math.random().toString(36).substring(2, 10),
       title: newTaskText.trim(),
       deadline: newTaskDeadline, // Add deadline
     };
-
-    const updatedTasks = {
-      ...tasks,
-      ideas: {
-        ...tasks.ideas,
-        items: [...tasks.ideas.items, newTask],
-      },
-    };
-
+  
+    // Make sure to create a deep copy of tasks and not just a shallow one
+    const updatedTasks = { ...tasks };
+  
+    if (!updatedTasks.ideas) {
+      updatedTasks.ideas = { items: [] };
+    }
+  
+    updatedTasks.ideas.items.push(newTask);
+  
+    // Update state
     setTasks(updatedTasks);
     setNewTaskText("");
     setNewTaskDeadline("");
     setShowStickyNote(false);
-
-    socket.emit("addTask", updatedTasks);
+  
+    // Emit updated tasks
+    socket.emit("tasks", updatedTasks);
   };
 
   const handleDragEnd = ({ source, destination }) => {
@@ -59,21 +71,21 @@ const TaskContainer = ({ socket }) => {
       source.index === destination.index
     )
       return; // No change in position
-
+  
     // Get the source and destination containers
     const sourceColumn = tasks[source.droppableId];
     const destinationColumn = tasks[destination.droppableId];
-
+  
     // Copy the items
     const sourceItems = Array.from(sourceColumn.items);
     const destinationItems = Array.from(destinationColumn.items);
-
+  
     // Remove the dragged item from the source
     const [draggedItem] = sourceItems.splice(source.index, 1);
-
+  
     // Add the dragged item to the destination
     destinationItems.splice(destination.index, 0, draggedItem);
-
+  
     // Update the state with the new task positions
     const updatedTasks = {
       ...tasks,
@@ -86,9 +98,21 @@ const TaskContainer = ({ socket }) => {
         items: destinationItems,
       },
     };
+  
+    // Update the state locally
+    setTasks(updatedTasks);
+  
+    // Emit the updated tasks to the server
+    socket.emit("tasks", updatedTasks);
+  };
 
-    setTasks(updatedTasks); // Update local state
-    socket.emit("tasks", updatedTasks); // Emit the updated tasks to the server
+  const handleSendMessage = (e) => {
+    e.preventDefault();
+    if (!newMessage.trim()) return;
+
+    socket.emit("chatMessage", newMessage);
+    setMessages((prevMessages) => [...prevMessages, `You: ${newMessage}`]);
+    setNewMessage("");
   };
 
   return (
@@ -110,7 +134,82 @@ const TaskContainer = ({ socket }) => {
       >
         +
       </button>
-
+      {/* Chat log */}
+      <div
+        style={{
+          position: "fixed",
+          bottom: "100px",
+          right: "20px",
+          width: "440px",
+          height: "200px",
+          backgroundColor: "#f1f1f1",
+          border: "1px solid #ccc",
+          borderRadius: "8px",
+          padding: "0.5rem",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "space-between",
+          boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+          zIndex: 1000,
+        }}
+      >
+        <div
+          style={{
+            fontSize: "1.3rem",
+            fontWeight: "bold",
+            color: "#0077CC",
+            textAlign: "center",
+            marginBottom: "0.5rem",
+          }}
+          >
+            Team Chat
+          </div>
+        <div
+          style={{
+            flex: 1,
+            overflowY: "auto",
+            padding: "0.5rem",
+          }}
+        >
+          {messages.map((message, index) => (
+            <div key={index} style={{ marginBottom: "0.5rem" }}>
+              {message}
+            </div>
+          ))}
+        </div>
+        <form
+          onSubmit={handleSendMessage}
+          style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}
+        >
+          <input
+            type="text"
+            value={newMessage}
+            onChange={(e) => setNewMessage(e.target.value)}
+            placeholder="Type a message..."
+            style={{
+              flex: 1,
+              padding: "0.5rem",
+              fontSize: "1rem",
+              border: "1px solid #ccc",
+              borderRadius: "4px",
+            }}
+          />
+          <button
+            type="submit"
+            style={{
+              padding: "0.5rem",
+              fontSize: "1rem",
+              backgroundColor: "#063970",
+              color: "#fff",
+              border: "none",
+              borderRadius: "4px",
+              cursor: "pointer",
+            }}
+          >
+            Send
+          </button>
+        </form>
+      </div>
       {showStickyNote && (
         <div
           style={{
@@ -275,19 +374,6 @@ const TaskContainer = ({ socket }) => {
           }}
         >
           <TaskCalendar tasks={tasks} />
-        </div>
-
-        {/* Chat (Empty for now) */}
-        <div
-          style={{
-            flex: 1,
-            border: "1px solid #ccc",
-            padding: "1rem",
-            backgroundColor: "#f9f9f9",
-          }}
-        >
-          {/* Placeholder for chat */}
-          <h4>Chat (Empty for now)</h4>
         </div>
       </div>
     </div>
