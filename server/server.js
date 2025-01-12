@@ -39,7 +39,7 @@ socketIO.on("connection", (socket) => {
     tasks[destination.droppableId].items.splice(
       destination.index,
       0,
-      itemMoved
+      itemShifted
     );
 
     socket.emit("tasks", tasks);

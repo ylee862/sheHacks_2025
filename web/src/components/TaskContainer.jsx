@@ -70,6 +70,11 @@ const TaskContainer = ({ socket }) => {
 
   const handleDragEnd = ({ destination, source }) => {
     if (!destination) return;
+    if (
+      destination.index === source.index &&
+      destination.droppableId === source.droppableId
+    )
+      return;
 
     socket.emit("taskDragged", {
       source,
@@ -78,7 +83,10 @@ const TaskContainer = ({ socket }) => {
   };
 
   return (
-    <div className="task-container" style={{ display: "flex", height: "100vh" }}>
+    <div
+      className="task-container"
+      style={{ display: "flex", height: "100vh" }}
+    >
       {/* Left Side: Task Columns */}
       <div
         style={{
@@ -105,7 +113,11 @@ const TaskContainer = ({ socket }) => {
                   {(provided) => (
                     <div ref={provided.innerRef} {...provided.droppableProps}>
                       {task.items.map((item, index) => (
-                        <Draggable key={item.id} draggableId={item.id} index={index}>
+                        <Draggable
+                          key={item.id}
+                          draggableId={item.id}
+                          index={index}
+                        >
                           {(provided) => (
                             <div
                               ref={provided.innerRef}

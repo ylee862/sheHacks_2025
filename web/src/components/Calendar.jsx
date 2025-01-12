@@ -21,7 +21,7 @@ const TaskCalendar = ({ tasks }) => {
 
   return (
     <div style={{ margin: "1rem" }}>
-      <h2>Task Calendar</h2>
+      <h2>Calendar</h2>
       <Calendar
         tileClassName={({ date }) => (isHighlighted(date) ? "highlight" : null)}
       />
