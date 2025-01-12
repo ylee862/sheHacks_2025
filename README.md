@@ -91,7 +91,7 @@ Stormi is an open-source project, and we welcome contributions! Here’s how you
 ## 🤖 Future Improvements
 
 - **Authentication**: Add user login and session management for team collaboration.
-- **Multiple Project Access **: Allow users to work on multiple projects at once with different teams.
+- **Multiple Project Access**: Allow users to work on multiple projects at once with different teams.
 - **Advanced Features**: Implement time tracking, task prioritization, and project analytics.
 
 ---
