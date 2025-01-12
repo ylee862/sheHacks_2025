@@ -1,21 +1,20 @@
 const express = require("express");
+const cors = require("cors");
+const http = require("http");
+const { Server } = require("socket.io");
 
 const app = express();
 
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
-
 //to allow transfer between client and server
-const http = require("http").Server(app);
-const cors = require("cors");
-
-app.use(cors());
+const server = http.createServer(app);
 
 //Socket.io for real-time connection
-const socketIO = require("socket.io")(http, {
+const socketIO = new Server(server, {
   cors: {
-    origin: "http://localhost:3000",
+    origin: "http://localhost:5173",
+    methods: ["GET", "POST"],
   },
+  path: "/socket.io",
 });
 
 //Add this before the app.get() block
@@ -29,7 +28,16 @@ socketIO.on("connection", (socket) => {
       ...tasks[source.droppableId].items[source.index],
     };
     console.log("ItemDragged = ", itemShifted);
-    console.log(data);
+
+    tasks[source.droppableId].items.splice(source.index, 1);
+
+    tasks[destination.droppableId].items.splice(
+      destination.index,
+      0,
+      itemMoved
+    );
+
+    socket.emit("tasks", tasks);
   });
 
   socket.on("disconnect", () => {
@@ -38,10 +46,15 @@ socketIO.on("connection", (socket) => {
   });
 });
 
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+
 app.get("/api", (req, res) => {
   res.json({ message: "Hello from server!" });
 });
 
-http.listen(8000, () => {
-  console.log(`Server is running on port 8000.`);
+app.use(cors());
+
+server.listen(3000, () => {
+  console.log(`Server is running on port 3000.`);
 });
