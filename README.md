@@ -38,8 +38,7 @@ With a Kanban board, team chat, and calendar all in one place, it's designed to 
 ## 🛠️ Technologies Used
 
 - **React.js** - A JavaScript library for building interactive user interfaces.
-- **useState & useEffect** - For managing state and handling side effects in React.
-- **CSS Grid** - For flexible and responsive layout design.
+- **CSS** - For flexible and responsive layout design.
 - **Drag and Drop API** - To enable moving sticky notes between columns seamlessly.
 - **Node.js** - A runtime environment for executing JavaScript on the server-side.
 
@@ -72,10 +71,9 @@ To get started with **Stormi**, follow these steps:
 
 3. Start the development server:
    ```bash
-   npm start
+   npm run build
+   npm run dev
    ```
-
-4. Open your browser and go to `http` to see Stormi in action!
 
 ---
 
@@ -87,21 +85,6 @@ Stormi is an open-source project, and we welcome contributions! Here’s how you
 2. Create a new branch for your changes.
 3. Make your changes and commit them.
 4. Open a pull request with a description of your changes.
-
----
-
-## 📸 Screenshots
-
-Here’s a sneak peek of what Stormi looks like in action:
-
-- **Kanban Board**:  
-![Kanban Board](./assets/screenshots/kanban-board.png)
-
-- **Team Chat**:  
-![Team Chat](./assets/screenshots/team-chat.png)
-
-- **Calendar**:  
-![Calendar](./assets/screenshots/calendar.png)
 
 ---
 
