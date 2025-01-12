@@ -6,24 +6,35 @@ const TaskCalendar = ({ tasks }) => {
   const [highlightedDates, setHighlightedDates] = useState([]);
 
   useEffect(() => {
-    const dates = Object.values(tasks).flatMap((task) =>
-      task.items.map((item) => item.deadline).filter(Boolean)
-    );
+    const dates = Object.values(tasks)
+      .flatMap((task) =>
+        task.items.map((item) => item.deadline).filter(Boolean)
+      )
+      .map((date) => new Date(date));
 
     setHighlightedDates(dates);
   }, [tasks]);
 
   const isHighlighted = (date) => {
     // Check if the given date is in the highlightedDates array
-    const formattedDate = date.toISOString().split("T")[0];
-    return highlightedDates.includes(formattedDate);
+    return highlightedDates.some(
+      (highlightedDate) =>
+        highlightedDate.getFullYear() === date.getFullYear() &&
+        highlightedDate.getMonth() === date.getMonth() &&
+        highlightedDate.getDate() === date.getDate()
+    );
   };
 
   return (
     <div style={{ margin: "1rem" }}>
       <h2>Calendar</h2>
       <Calendar
-        tileClassName={({ date }) => (isHighlighted(date) ? "highlight" : null)}
+        tileClassName={({ date }) => {
+          if (isHighlighted(date)) {
+            return "highlight";
+          }
+          return null;
+        }}
       />
       <style>
         {`

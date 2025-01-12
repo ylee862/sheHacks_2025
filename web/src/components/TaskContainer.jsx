@@ -52,6 +52,8 @@ const TaskContainer = ({ socket }) => {
       deadline: newTaskDeadline, // Add deadline
     };
 
+    socket.emit("newTask", newTask);
+
     const updatedTasks = {
       ...tasks,
       ideas: {
@@ -65,7 +67,7 @@ const TaskContainer = ({ socket }) => {
     setNewTaskDeadline("");
     setShowStickyNote(false);
 
-    socket.emit("addTask", updatedTasks);
+    //socket.emit("addTask", updatedTasks);
   };
 
   const handleDragEnd = ({ destination, source }) => {

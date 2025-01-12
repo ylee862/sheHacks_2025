@@ -24,9 +24,10 @@ const MainTask = () => {
       id: Math.random().toString(36).substring(2, 10),
       title: taskData.description,
       colour: taskData.colour,
+      deadline: taskData.deadline,
     };
 
-    socket.emit("newTask", taskData);
+    socket.emit("newTask", newTask);
     closeModal();
   }
 
