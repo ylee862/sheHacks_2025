@@ -80,7 +80,7 @@ const TaskContainer = ({ socket }) => {
           fontSize: "2rem",
           padding: "10px",
           borderRadius: "75px",
-          backgroundColor: "teal",
+          backgroundColor: "#063970",
           cursor: "pointer",
           color: "white",
           border: "none",
@@ -97,7 +97,7 @@ const TaskContainer = ({ socket }) => {
             left: "50%",
             transform: "translate(-50%, -30%)",
             padding: "1rem",
-            backgroundColor: "#fffae3",
+            backgroundColor: "#fafafa",
             border: "1px solid #ccc",
             borderRadius: "8px",
             width: "300px",
@@ -118,6 +118,17 @@ const TaskContainer = ({ socket }) => {
               resize: "none",
             }}
           />
+
+          <p
+            style={{
+              margin: 0,
+              fontSize: "1rem",
+              fontWeight: "bold",
+              color: "#063970",
+            }}
+          >
+            Set Deadline:
+          </p>
           <input
             type="date"
             value={newTaskDeadline}
@@ -149,7 +160,7 @@ const TaskContainer = ({ socket }) => {
               onClick={handlePostTask}
               style={{
                 padding: "0.5rem 1rem",
-                backgroundColor: "#4caf50",
+                backgroundColor: "#063970",
                 color: "#fff",
                 border: "none",
                 borderRadius: "4px",

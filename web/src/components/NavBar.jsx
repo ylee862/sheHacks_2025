@@ -24,7 +24,13 @@ const NavBar = () => {
   return (
     <nav
       className="navbar"
-      style={{ padding: "1rem", backgroundColor: "#B19CD9" }}
+      style={{
+        display: "flex", // Enable flexbox
+        alignItems: "center", // Vertically center content
+        justifyContent: "flex-start", // Align content to the left
+        padding: "1rem",
+        backgroundColor: "#063970",
+      }}
     >
       {isEditing ? (
         <input

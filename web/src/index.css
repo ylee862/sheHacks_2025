@@ -2,7 +2,7 @@
 body {
   margin: 0;
   font-family: "Space Grotesk", sans-serif;
-  background-color: #f7f8fa;
+  background-color: #ffffff;
   color: #333;
 }
 
@@ -18,7 +18,7 @@ a {
 /* Navbar Styles */
 .navbar {
   width: 100%;
-  background-color: #5050e9;
+  background-color: #1c1c3a;
   color: #fff;
   height: 10vh;
   display: flex;
@@ -82,19 +82,19 @@ a {
 }
 
 .ideas__wrapper h3 {
-  background-color: #ffadad;
+  background-color: #4373a7;
 }
 
 .todo__wrapper h3 {
-  background-color: #ffd6a5;
+  background-color: #4373a7;
 }
 
 .doing__wrapper h3 {
-  background-color: #caffbf;
+  background-color: #4373a7;
 }
 
 .done__wrapper h3 {
-  background-color: #9bf6ff;
+  background-color: #4373a7;
 }
 
 /* Task Containers */
