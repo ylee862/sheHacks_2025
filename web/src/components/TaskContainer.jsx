@@ -222,7 +222,11 @@ const TaskContainer = ({ socket }) => {
               <div className={`${task.title.toLowerCase()}__container`}>
                 <Droppable droppableId={key}>
                   {(provided) => (
-                    <div ref={provided.innerRef} {...provided.droppableProps}>
+                    <div ref={provided.innerRef} {...provided.droppableProps}
+                    style={{
+                      minHeight: "50px",
+                      border: "none",
+                    }}>
                       {task.items.map((item, index) => (
                         <Draggable
                           key={item.id}
