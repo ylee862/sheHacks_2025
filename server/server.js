@@ -1,9 +1,14 @@
 const express = require("express");
+const { Server } = require("socket.io");
+const app = express();
+
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+
 const cors = require("cors");
 const http = require("http");
-const { Server } = require("socket.io");
 
-const app = express();
+app.use(cors());
 
 //to allow transfer between client and server
 const server = http.createServer(app);
@@ -46,14 +51,53 @@ socketIO.on("connection", (socket) => {
   });
 });
 
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
+const fetchID = () => Math.random().toString(36).substring(2, 10);
+
+let tasks = {
+  ideas: {
+    title: "ideas",
+    items: [
+      {
+        id: fetchID(),
+        title: "draw er diagram",
+      },
+    ],
+  },
+
+  todo: {
+    title: "todo",
+    items: [
+      {
+        id: fetchID(),
+        title: "draw another diagram",
+      },
+    ],
+  },
+
+  doing: {
+    title: "doing",
+    items: [
+      {
+        id: fetchID(),
+        title: "coloring",
+      },
+    ],
+  },
+
+  done: {
+    title: "done",
+    items: [
+      {
+        id: fetchID(),
+        title: "send it to someone",
+      },
+    ],
+  },
+};
 
 app.get("/api", (req, res) => {
-  res.json({ message: "Hello from server!" });
+  res.json(tasks);
 });
-
-app.use(cors());
 
 server.listen(3000, () => {
   console.log(`Server is running on port 3000.`);
