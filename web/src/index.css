@@ -306,7 +306,8 @@ a {
     gap: 10px;
   }
 
-  .calendar__day, .calendar__date {
+  .calendar__day,
+  .calendar__date {
     font-size: 0.9rem;
     padding: 8px;
   }

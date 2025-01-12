@@ -261,19 +261,19 @@ body {
 }
 
 .ideas__container {
-  background-color: rgba(183, 6, 6, 0.154);
+  background-color: "#4373a7";
 }
 
 .todo__container {
-  background-color: rgba(255, 115, 0, 0.154);
+  background-color: "#4373a7";
 }
 
 .doing__container {
-  background-color: rgb(0, 104, 0, 0.154);
+  background-color: "#4373a7";
 }
 
 .done__container {
-  background-color: rgb(0, 104, 0, 0.154);
+  background-color: "#4373a7";
 }
 
 .cardcontainer {
