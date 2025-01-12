@@ -59,21 +59,21 @@ const TaskContainer = ({ socket }) => {
       source.index === destination.index
     )
       return; // No change in position
-  
+
     // Get the source and destination containers
     const sourceColumn = tasks[source.droppableId];
     const destinationColumn = tasks[destination.droppableId];
-  
+
     // Copy the items
     const sourceItems = Array.from(sourceColumn.items);
     const destinationItems = Array.from(destinationColumn.items);
-  
+
     // Remove the dragged item from the source
     const [draggedItem] = sourceItems.splice(source.index, 1);
-  
+
     // Add the dragged item to the destination
     destinationItems.splice(destination.index, 0, draggedItem);
-  
+
     // Update the state with the new task positions
     const updatedTasks = {
       ...tasks,
@@ -86,16 +86,13 @@ const TaskContainer = ({ socket }) => {
         items: destinationItems,
       },
     };
-  
+
     setTasks(updatedTasks); // Update local state
     socket.emit("tasks", updatedTasks); // Emit the updated tasks to the server
   };
 
   return (
-    <div
-      className="task-container"
-      style={{ display: "flex", height: "120" }}
-    >
+    <div className="task-container" style={{ display: "flex", height: "120" }}>
       <button
         onClick={handleAddTask}
         style={{
@@ -127,6 +124,7 @@ const TaskContainer = ({ socket }) => {
             borderRadius: "8px",
             width: "300px",
             boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+            zIndex: 1000,
           }}
         >
           <textarea
@@ -222,11 +220,14 @@ const TaskContainer = ({ socket }) => {
               <div className={`${task.title.toLowerCase()}__container`}>
                 <Droppable droppableId={key}>
                   {(provided) => (
-                    <div ref={provided.innerRef} {...provided.droppableProps}
-                    style={{
-                      minHeight: "50px",
-                      border: "none",
-                    }}>
+                    <div
+                      ref={provided.innerRef}
+                      {...provided.droppableProps}
+                      style={{
+                        minHeight: "50px",
+                        border: "none",
+                      }}
+                    >
                       {task.items.map((item, index) => (
                         <Draggable
                           key={item.id}
