@@ -94,7 +94,7 @@ const TaskContainer = ({ socket }) => {
   return (
     <div
       className="task-container"
-      style={{ display: "flex", height: "100vh" }}
+      style={{ display: "flex", height: "120" }}
     >
       <button
         onClick={handleAddTask}
