@@ -64,42 +64,22 @@ const fetchID = () => Math.random().toString(36).substring(2, 10);
 let tasks = {
   ideas: {
     title: "ideas",
-    items: [
-      {
-        id: fetchID(),
-        title: "draw er diagram",
-      },
-    ],
+    items: [],
   },
 
   todo: {
     title: "todo",
-    items: [
-      {
-        id: fetchID(),
-        title: "draw another diagram",
-      },
-    ],
+    items: [],
   },
 
   doing: {
     title: "doing",
-    items: [
-      {
-        id: fetchID(),
-        title: "coloring",
-      },
-    ],
+    items: [],
   },
 
   done: {
     title: "done",
-    items: [
-      {
-        id: fetchID(),
-        title: "send it to someone",
-      },
-    ],
+    items: [],
   },
 };
 

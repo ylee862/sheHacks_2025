@@ -8,9 +8,15 @@ const TaskCalendar = ({ tasks }) => {
   useEffect(() => {
     const dates = Object.values(tasks)
       .flatMap((task) =>
-        task.items.map((item) => item.deadline).filter(Boolean)
+        task.items.map((item) => {
+          if (!item.deadline) return null;
+          const deadline = new Date(item.deadline);
+          const dayAfter = new Date(deadline);
+          dayAfter.setDate(deadline.getDate() + 1); // Calculate the day before
+          return dayAfter;
+        })
       )
-      .map((date) => new Date(date));
+      .filter(Boolean); // Remove null values
 
     setHighlightedDates(dates);
   }, [tasks]);
@@ -26,7 +32,9 @@ const TaskCalendar = ({ tasks }) => {
 
   return (
     <div style={{ margin: "2rem", padding: "1rem", textAlign: "center" }}>
-      <h2 style={{ marginBottom: "1rem", color: "#0077cc", fontWeight: "bold" }}>
+      <h2
+        style={{ marginBottom: "1rem", color: "#0077cc", fontWeight: "bold" }}
+      >
         Task Calendar
       </h2>
       <Calendar
