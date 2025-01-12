@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import TaskCalendar from "./Calendar";
+import starFilledImage from "../assets/star-filled-icon.png";
+import starOutlineImage from "../assets/star-outline-icon.png";
 
 const TaskContainer = ({ socket }) => {
   const [tasks, setTasks] = useState({});
@@ -8,6 +10,7 @@ const TaskContainer = ({ socket }) => {
   const [newTaskText, setNewTaskText] = useState("");
   const [newTaskDeadline, setNewTaskDeadline] = useState("");
   const [editingTask, setEditingTask] = useState(null);
+  const [isStarred, setIsStarred] = useState(false); // State to manage star toggle for new tasks
 
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
@@ -44,6 +47,7 @@ const TaskContainer = ({ socket }) => {
       id: Math.random().toString(36).substring(2, 10),
       title: newTaskText.trim(),
       deadline: newTaskDeadline, // Add deadline
+      isStarred: false,
     };
 
     // Make sure to create a deep copy of tasks and not just a shallow one
@@ -62,6 +66,19 @@ const TaskContainer = ({ socket }) => {
     setShowStickyNote(false);
 
     // Emit updated tasks
+    socket.emit("tasks", updatedTasks);
+  };
+
+  const toggleStar = (taskId) => {
+    const updatedTasks = { ...tasks };
+    Object.keys(updatedTasks).forEach((columnKey) => {
+      updatedTasks[columnKey].items = updatedTasks[columnKey].items.map(
+        (item) =>
+          item.id === taskId ? { ...item, isStarred: !item.isStarred } : item
+      );
+    });
+
+    setTasks(updatedTasks);
     socket.emit("tasks", updatedTasks);
   };
 
@@ -298,6 +315,7 @@ const TaskContainer = ({ socket }) => {
               borderRadius: "4px",
             }}
           />
+
           <div style={{ marginTop: "0.5rem", textAlign: "right" }}>
             <button
               onClick={() => setEditingTask(null)}
@@ -383,6 +401,7 @@ const TaskContainer = ({ socket }) => {
               borderRadius: "4px",
             }}
           />
+
           <div style={{ marginTop: "0.5rem", textAlign: "right" }}>
             <button
               onClick={() => setShowStickyNote(false)}
@@ -486,6 +505,35 @@ const TaskContainer = ({ socket }) => {
                               }}
                               onClick={() => handleTaskClick(item)}
                             >
+                              {/* Star Button */}
+                              <button
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  setIsStarred(!isStarred);
+                                }}
+                                style={{
+                                  position: "absolute",
+                                  top: "20px",
+                                  right: "20px",
+                                  border: "none",
+                                  background: "transparent",
+                                  cursor: "pointer",
+                                  zIndex: 1001,
+                                }}
+                              >
+                                <img
+                                  src={
+                                    isStarred
+                                      ? starFilledImage
+                                      : starOutlineImage
+                                  }
+                                  alt="star toggle"
+                                  style={{
+                                    width: "30px",
+                                    height: "30px",
+                                  }}
+                                />
+                              </button>
                               <p>{item.title}</p>
                               {item.deadline && (
                                 <div
